@@ -1,59 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Layihə haqqında
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bu layihə Authentication + Sadə ERP (Enterprise Resource Planning) sistemi kimi hazırlanmışdır. Sistem istifadəçilərin qeydiyyatı, giriş, rol əsaslı icazələr və əsas biznes modullarını (məhsul, müştəri, sifariş, hesabatlar) əhatə edir.
 
-## About Laravel
+Layihə təmiz arxitektura, təhlükəsizlik best practice-ləri və real production yanaşması ilə hazırlanmışdır.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+ Texnologiyalar
+PHP 8.2+
+Laravel 11
+Laravel Sanctum (Authentication)
+MySQL / PostgreSQL
+Eloquent ORM
+Queue (Database driver)
+Mailtrap (Email testing üçün)
+PHPUnit / Pest (Testing)
+ Arxitektura
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Layihə Layered Architecture prinsiplərinə uyğun hazırlanmışdır:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Controller → Service → Repository → Model
 
-## Learning Laravel
+Əlavə olaraq:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Policies → Authorization üçün
+Form Request → Validation üçün
+Events & Listeners → Stock update kimi proseslər üçün
+API Resources → Response standardizasiyası üçün
+ Authentication & Security
+ İmkanlar
+Qeydiyyat (email verification ilə)
+Login (Token-based auth – Sanctum)
+Password reset (token ilə, 1 saat aktiv)
+Change password (authenticated)
+Account lock (5 uğursuz cəhddən sonra 15 dəq)
+Login attempt log (IP + timestamp)
+ Təhlükəsizlik
+Password hashing: bcrypt
+Rate limiting (login endpoint)
+Role-based access control (RBAC)
+Email verification məcburidir
+ Rol Sistemi
+Rol	Səlahiyyət
+admin	Tam access
+manager	Məhsul, sifariş, müştəri idarəsi
+employee	Yalnız təyin olunan sifarişlər
+ Modullar
+1. Product Management
+Məhsul CRUD
+SKU auto-generate (PRD-XXXXX)
+Low stock endpoint
+Soft delete
+Business rule:
+Pending/processing order varsa silinmir
+2. Customer Management
+Müştəri CRUD
+Order history summary
+Business rules:
+business tipdə tax_id məcburidir
+Aktiv sifarişi olan müştəri silinmir
+3. Order Management
+Order + order_items strukturu
+Status flow:
+draft → pending → processing → shipped → delivered
+        ↘ cancelled
+Business logic:
+Stock azaldılır (processing zamanı)
+Cancel olduqda stock geri qaytarılır
+Total amount server-side hesablanır
+4. Dashboard & Reports
+Ümumi statistikalar
+Revenue analizi
+Top products & customers
+Inventory report (critical / low / normal)
