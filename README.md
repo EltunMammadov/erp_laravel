@@ -60,8 +60,7 @@ Aktiv sifarişi olan müştəri silinmir
 3. Order Management
 Order + order_items strukturu
 Status flow:
-draft → pending → processing → shipped → delivered
-        ↘ cancelled
+draft → pending → processing → shipped → delivered -> cancelled
 Business logic:
 Stock azaldılır (processing zamanı)
 Cancel olduqda stock geri qaytarılır
